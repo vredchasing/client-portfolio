@@ -7,7 +7,7 @@ function Navbar (){
                     <li>HOME</li>
                     <li>ABOUT</li>
                     <li>PROJECTS</li>
-                    <li>BLOGS</li>
+                    <li>CONTACT</li>
                 </ul>
             </nav>
         </section>
