@@ -5,6 +5,7 @@ import Header from './Components/Header'
 import Navbar from './Components/Navbar'
 import Footer from './Components/Footer'
 import InertiaScroll from './Functions/InertiaScroll'
+import CustomCursorTracker from './Functions/CustomCursorTracker'
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
     
     <section className='mainbody'>
       <InertiaScroll></InertiaScroll>
+      <CustomCursorTracker></CustomCursorTracker>
       <Header></Header>
       <Navbar></Navbar>
       <Outlet></Outlet>
