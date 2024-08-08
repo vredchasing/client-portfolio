@@ -375,13 +375,6 @@ function Home (){
                 })}
             </section>
             <Experience></Experience>
-            <section className="projects-title-wrapper" ref={setProjectTitleWrapperRef}>
-                {projectsTitle.map((letter, index)=>{
-                    return(
-                        <CreateProjectTitle key={letter} letter={letter} index={index}></CreateProjectTitle>
-                    )
-                })}
-            </section>
             <section className="projects-section">
                 <Projects></Projects>
             </section>
