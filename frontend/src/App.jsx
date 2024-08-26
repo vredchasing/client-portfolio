@@ -12,7 +12,6 @@ function App() {
   return (
     
     <section className='mainbody'>
-      <InertiaScroll></InertiaScroll>
       <CustomCursorTracker></CustomCursorTracker>
       <Header></Header>
       <Navbar></Navbar>

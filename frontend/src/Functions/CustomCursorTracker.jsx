@@ -13,7 +13,7 @@ function CustomCursorTracker() {
         if (cursorTrackerRef.current) {
           cursorTrackerRef.current.style.left = `${position.current.x}px`;
           cursorTrackerRef.current.style.top = `${position.current.y}px`;
-          setOpacity(1); // Set opacity to 1 after position is updated
+          setOpacity(1);
         }
         animationFrameId.current = null;
       });

@@ -182,8 +182,6 @@ function Home (){
     function aboutTextAnimation (){
         const container = HomeTextAboutRef.current
         const rect = container.getBoundingClientRect()
-        console.log(aboutText1Ref.current)
-
         if(rect.top<viewportHeight){
             container.style.opacity = '1'
             aboutText1Ref.current.forEach((word, index)=>{
@@ -339,19 +337,22 @@ function Home (){
                                     )
                                 })}
                             </div>
+
                         </div>
                         <div className="home1-text-container-bottom">
                             <div className="home1-text-container-bottom-wrapper" ref={setHomeTextAboutRef}>
                                 <div className="homeText5">
                                     <div className="about-name-wrapper">
-                                        {aboutNameIntro.map((word, index)=>{
-                                            return(
-                                                <span className="about-word-span" key={index} ref={setAboutText1Ref(index)}>
-                                                    {word}
-                                                </span>
-                                            )
-                                        })}
-                                        <span className="name">Prothsan Gurung.</span>
+                                        <div className="about-name-container">
+                                            {aboutNameIntro.map((word, index)=>{
+                                                return(
+                                                    <span className="about-word-span" key={index} ref={setAboutText1Ref(index)}>
+                                                        {word}
+                                                    </span>
+                                                )
+                                            })}
+                                            <span className="name">Prothsan Gurung.</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="about-p-wrapper">
@@ -375,6 +376,15 @@ function Home (){
                 })}
             </section>
             <Experience></Experience>
+            <section className="projects-title-wrapper" ref={setProjectTitleWrapperRef}>
+                <div className="projects-title-container-main">
+                    {projectsTitle.map((letter, index)=>{
+                        return(
+                            <CreateProjectTitle key={index} letter={letter} index={index}></CreateProjectTitle>
+                        )
+                    })}
+                </div>
+            </section>
             <section className="projects-section">
                 <Projects></Projects>
             </section>
