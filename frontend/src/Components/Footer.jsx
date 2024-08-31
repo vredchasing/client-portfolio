@@ -1,21 +1,39 @@
 function Footer (){
     return (
-        <section className="footer-section">
-            <section className="footer-wrapper">
-                <div className="footer-left">
-                    <div className="logo-footer-container">
-                    </div>
-                    <div className="footer-project-info-container">
-                        <h1 className="footer-project-info">
-                            DESIGNED BY VISIO STUDIO
-                        </h1>
+        <section className="footer-wrapper">
+            <section className="menu-section-top">
+                <div className="menu-top-left">
+                    <div className="menu-pg-logo-container">
+                        <h1 className="menu-pg-logo">PG</h1>
                     </div>
                 </div>
-                <div className="footer-right">
-
+                <div className="menu-top-right">
+                    <ul className="menu-links-ul">
+                        <li className="menu-links">HOME</li>
+                        <li className="menu-links">ABOUT</li>
+                        <li className="menu-links">PROJECTS</li>
+                        <li className="menu-links">CONTACT</li>
+                    </ul>
                 </div>
             </section>
-
+            <section className="menu-section-bottom">
+                <div className="menu-bottom-left">
+                    <div className="menu-email-container">
+                        <h1 className="menu-email-text">PROTHSANGURUNG@GMAIL.COM</h1>
+                    </div>
+                </div>
+                <div className="menu-bottom-right">
+                    <div className="menu-phone-number-container">
+                        <h1 className="menu-phone-number-text">+1 330-123-4567</h1>
+                    </div>
+                    <div className="menu-linkedin-container">
+                        <h1 className="menu-linkedin-text">LINKEDIN</h1>
+                    </div>
+                    <div className="menu-instagram-container">
+                        <h1 className="menu-instagram-text">INSTAGRAM</h1>
+                    </div>
+                </div>
+            </section>
         </section>
     )
 }

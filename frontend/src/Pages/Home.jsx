@@ -14,16 +14,6 @@ const projectsTitle = ['P','R','O','J','E','C','T','S']
 
 
 function Home (){
-
-    useEffect(() => {
-        const scrollbar = Scrollbar.init(document.querySelector('#scroll-container'), {
-          damping: 0.0001   , // Adjust for more or less dampening
-          renderByPixels: true,
-        });
-    
-        return () => scrollbar.destroy();
-      }, []);
-
     const home1WrapperRef = useRef(null)
     const setHome1WrapperRef = (el)=>{
         if(el){
@@ -161,50 +151,6 @@ function Home (){
 
 
 
-    
-    // About
-    
-    const HomeTextAboutRef = useRef(null)
-
-    const setHomeTextAboutRef = (el)=>{
-        if(el){
-            HomeTextAboutRef.current = el
-        }
-    }
-
-    const aboutText1Ref = useRef([])
-
-    const setAboutText1Ref = (index) => (el)=>{
-        aboutText1Ref.current[index] = el
-    }
-
-
-    function aboutTextAnimation (){
-        const container = HomeTextAboutRef.current
-        const rect = container.getBoundingClientRect()
-        if(rect.top<viewportHeight){
-            container.style.opacity = '1'
-            aboutText1Ref.current.forEach((word, index)=>{
-                setTimeout(()=>{
-                    word.style.transform = `translateY(0vw)`
-                }, index*100)
-            })
-        }
-    }
-
-    useEffect(()=>{
-        const handleScroll = ()=>{
-            aboutTextAnimation()
-        }
-
-        window.addEventListener('scroll', handleScroll)
-        return()=>{
-            window.removeEventListener('scroll', handleScroll)
-        }
-    },[])
-
-
-
 
     // EXPERIENCE TITLE ANIMATION 
 
@@ -309,61 +255,166 @@ function Home (){
 
 
 
+    //About section logic
+    const aboutMainWrapperRef = useRef()
+    const aboutRef = useRef()
+    const aboutRefOffset = useRef()
+    const aboutMainWrapperHeightRef = useRef()
+    const aboutNameRef = useRef()
+    const aboutParagraphRef = useRef()
+    
+    const setAboutMainWrapperRef = (el)=>{
+        if(el){
+            aboutMainWrapperRef.current = el
+        }
+    }
+    const setAboutRef = (el)=>{
+        if(el){
+           aboutRef.current = el
+        }
+    }
+    const setAboutNameRef = (el)=>{
+        if(el){
+           aboutNameRef.current = el
+        }
+    }
+    const setAboutParagraphRef = (el)=>{
+        if(el){
+           aboutParagraphRef.current = el
+        }
+    }
+
+    const aboutText1Ref = useRef([])
+
+    const setAboutText1Ref = (index) => (el)=>{
+        aboutText1Ref.current[index] = el
+    }
+
+
+    function aboutTextAnimation(){
+        const aboutName = aboutNameRef.current
+        const aboutParagraph = aboutParagraphRef.current
+        const offset = aboutRefOffset.current
+        const height = aboutMainWrapperHeightRef.current
+        const transitionPoint = 500
+
+        console.log('offset', offset, 'scrollY', window.scrollY)
+
+        aboutName.style.opacity = window.scrollY>=offset && window.scrollY<offset+transitionPoint ?
+            '1' : '0.1';
+        aboutParagraph.style.opacity = window.scrollY>=offset+transitionPoint ? 
+            '1' : '0.1';
+    }
+
+
+    useEffect(()=>{
+        const handleScroll = ()=>{
+            aboutTextAnimation()
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return()=>{
+            window.removeEventListener('scroll', handleScroll)
+        }
+    },[])
+
+    useEffect(()=>{
+        const aboutMainWrapper = aboutMainWrapperRef.current
+        const aboutWrapper = aboutRef.current
+        aboutMainWrapperHeightRef.current = aboutMainWrapper.offsetHeight
+        aboutRefOffset.current = aboutMainWrapper.offsetTop
+    }, [viewportHeight, viewportWidth])
+
+
+
+
+
     return(
         <section className='home-wrapper'>
-            <div className="home-fixed-content1" ref={setFixedContentRef}>
+            <div className="home-landing-page-wrapper" ref={setFixedContentRef}>
                 <div className='home1-content-wrapper' ref={setHome1WrapperRef} id="scroll-container">
+
                     <div className='home1-text-container'>
-
                         <div className="home1-text-container-top">
-                            <div className='home1-text1-container'>
-                                {homeText1.map((letter, index)=>{
-                                    return(
-                                        <CreateLetterText1 key={index} letter={letter} index={index}></CreateLetterText1>
-                                    )
-                                })}
+                            <div className="home1-text-top-wrapper">
+                                <div className='home1-text1-container'>
+                                    {homeText1.map((letter, index)=>{
+                                        return(
+                                            <CreateLetterText1 key={index} letter={letter} index={index}></CreateLetterText1>
+                                        )
+                                    })}
+                                </div>
+                                <div className='home1-text2-container'>
+                                    {homeText2.map((letter, index)=>{
+                                        return(
+                                            <CreateLetterText2 key={index} letter={letter} index={index}></CreateLetterText2>
+                                        )
+                                    })}
+                                </div>
+                                <div className="home1-text3-container">
+                                    {homeText3.map((letter, index)=>{
+                                        return (
+                                            <CreateLetterText3 key={index} letter={letter} index={index}></CreateLetterText3>
+                                        )
+                                    })}
+                                </div>
                             </div>
-                            <div className='home1-text2-container'>
-                                {homeText2.map((letter, index)=>{
-                                    return(
-                                        <CreateLetterText2 key={index} letter={letter} index={index}></CreateLetterText2>
-                                    )
-                                })}
-                            </div>
-                            <div className="home1-text3-container">
-                                {homeText3.map((letter, index)=>{
-                                    return (
-                                        <CreateLetterText3 key={index} letter={letter} index={index}></CreateLetterText3>
-                                    )
-                                })}
-                            </div>
-
                         </div>
-                        <div className="home1-text-container-bottom">
-                            <div className="home1-text-container-bottom-wrapper" ref={setHomeTextAboutRef}>
-                                <div className="homeText5">
-                                    <div className="about-name-wrapper">
-                                        <div className="about-name-container">
-                                            {aboutNameIntro.map((word, index)=>{
-                                                return(
-                                                    <span className="about-word-span" key={index} ref={setAboutText1Ref(index)}>
-                                                        {word}
-                                                    </span>
-                                                )
-                                            })}
-                                            <span className="name">Prothsan Gurung.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="about-p-wrapper">
-                                    <p className="homeText5v2">Over the years, I've worked on a variety of projects within the ever evolving field of Information Technology. This website is a collection of my work, highlighting my learning and experimentation.</p>
-                                </div>
-                                <div className="signature-wrapper">
-                                    <div className="signature-container">
-                                        <img className="signature" src="signature.png"></img>
-                                    </div>
+                    </div>
+
+                    <div className="landing-page-slider-wrapper">
+                        <div className="landing-page-slider">
+                            <span className="landing-page-slider-span">
+                                <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
+                            </span>
+                            <h1 className="landing-page-slider-text">A COLLECTION OF WORKS</h1>
+                            <span className="landing-page-slider-span">
+                                <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
+                            </span>
+                            <h1 className="landing-page-slider-text">कामहरूको संग्रह</h1>
+                        </div>
+
+                        <div className="landing-page-slider">
+                            <span className="landing-page-slider-span">
+                                <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
+                            </span>
+                            <h1 className="landing-page-slider-text">A COLLECTION OF WORKS</h1>
+                            <span className="landing-page-slider-span">
+                                <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
+                            </span>
+                            <h1 className="landing-page-slider-text">कामहरूको संग्रह</h1>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div className="home-about-section" ref={setAboutMainWrapperRef}>
+                <div className="home-about-wrapper" ref={setAboutRef}>
+                    <div className="home-about-left-wrapper">
+                        <div className="homeText5">
+                            <div className="about-name-wrapper">
+                                <div className="about-name-container" ref={setAboutNameRef}>
+                                    {aboutNameIntro.map((word, index)=>{
+                                        return(
+                                            <span className="about-word-span" key={index} ref={setAboutText1Ref(index)}>
+                                                {word}
+                                            </span>
+                                        )
+                                    })}
+                                    <span className="name">Prothsan Gurung.</span>
                                 </div>
                             </div>
+                        </div>
+                        <div className="about-p-wrapper" ref={setAboutParagraphRef}>
+                            <p className="homeText5v2">Over the years, I've worked on a variety of projects within the ever evolving field of Information Technology. This website is a collection of my work, highlighting my learning and experimentation.</p>
+                        </div>
+                    </div>
+
+                    <div className="signature-wrapper">
+                        <div className="signature-container">
+                            <img className="signature" src="signature.png"></img>
                         </div>
                     </div>
                 </div>

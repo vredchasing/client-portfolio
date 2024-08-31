@@ -5,6 +5,7 @@ function Experience() {
         {
             img: 'future.webp',
             projectName: [['C', 'Y', 'B', 'E', 'R', 'S', 'E', 'C', 'U', 'R', 'I', 'T', 'Y']],
+            time : '1 YEAR',
             projectLink: '',
             alignProjectImg: '',
             animateSpeed: 0.3
@@ -12,6 +13,7 @@ function Experience() {
         {
             img: 'cybersecurity.jpg',
             projectName: [['N', 'E', 'T', 'W', 'O', 'R', 'K'], ['D', 'E', 'S', 'I', 'G', 'N']],
+            time : '2 YEARS',
             projectLink: '',
             alignProjectImg: '',
             animateSpeed: 0.4
@@ -19,13 +21,15 @@ function Experience() {
         {
             img: 'workers.gif',
             projectName: [['I', 'N', 'F', 'O', 'R', 'M', 'A', 'T', 'I', 'O', 'N'], ['T', 'E', 'C', 'H', 'N', 'O', 'L', 'O', 'G', 'Y']],
+            time : '1 YEAR',
             projectLink: '',
             alignProjectImg: '',
             animateSpeed: 0.6
         },
         {
-            img: 'core.gif',
+            img: 'future.webp',
             projectName: [['V', 'I', 'R', 'T', 'U', 'A', 'L', 'I', 'Z', 'A', 'T', 'I', 'O', 'N']],
+            time : '1 YEAR',
             projectLink: '',
             alignProjectImg: '',
             animateSpeed: 0.8
@@ -75,8 +79,14 @@ function Experience() {
                         );
                     })}
                 </div>
-                <div className="experience-slide-image-container" ref={setExperienceSlideImgRef(index)}>
-                    <img className="experience-slide-image" src={slide.img} alt={slide.projectName.flat().join(' ')} />
+                <div className="experience-slide-image-wrapper">
+                    <div className="experience-slide-image-container" ref={setExperienceSlideImgRef(index)}>
+                        <img className="experience-slide-image" src={slide.img} alt={slide.projectName.flat().join(' ')} />
+                    </div>
+                </div>
+                <div className="time-wrapper">
+                    <ExperienceScrollTracker key={index} index={index}></ExperienceScrollTracker>
+                    <h1 className="time-text" ref={setExperienceTimeRef(index)}>{slide.time}</h1>
                 </div>
             </div>
         );
@@ -100,6 +110,7 @@ function Experience() {
     const experienceSlideRef = useRef([]);
     const experienceSlideImgRef = useRef([]);
     const experienceTextRef = useRef([]);
+    const experienceTimeRef = useRef([])
 
     const setExperienceWrapper = (el) => {
         if (el) {
@@ -124,99 +135,92 @@ function Experience() {
             experienceTextRef.current[index] = el;
         }
     };
-    function dynamicPositioning() {
-        const slides = experienceSlideRef.current;
-        const slideImages = experienceSlideImgRef.current;
-        const textWrappers = experienceTextRef.current;
-    
-        slides.forEach((slide, index) => {
-            // Position the slides
-            slide.style.justifyContent = 'center'
-        });
-    
-    
-        textWrappers.forEach((textWrapper, index) => {
-            if (textWrapper) {
-                // Position the text blocks
-                if (index % 2 === 0) {
-                    textWrapper.style.left = '12vw';
-                    textWrapper.style.right = 'auto';
-                } else {
-                    textWrapper.style.right = '12vw';
-                    textWrapper.style.left = 'auto';
-                }
-            }
-        });
+
+    const setExperienceTimeRef = (index)=>(el)=>{
+        if(el){
+            experienceTimeRef.current[index] = el
+        }
     }
-    
 
-    useEffect(() => {
-        dynamicPositioning();
-    }, [viewportHeight, viewportWidth]);
-
-    function letterSlideUpAnimation() {
+    function letterSlideUpAnimation(i) {
         const textArrays = textRefs.current;
-        const imgRefs = experienceSlideImgRef.current
-        textArrays.forEach((textBlockMain) => {
-            textBlockMain.forEach((textBlock) => {
-                const rect = textBlock[0].getBoundingClientRect();
-                if (rect.top <= viewportHeight * 0.8) {
-                    textBlock.forEach((letter, index) => {
-                        setTimeout(() => {
-                            letter.style.transform = `translateY(0vh)`;
-                        }, index * 50);
-                    });
-                }
+        if (i < 0 || i >= textArrays.length) {
+            console.warn('Index out of bounds:', i);
+            return;
+        }
+        const selectedTextArray = textArrays[i];
+        
+        selectedTextArray.forEach((textBlock, textBlockIndex) => {
+            // set delay based on the index of the text block
+            const blockDelay = textBlockIndex * 300; // adjust delay time
+    
+            textBlock.forEach((letter, letterIndex) => {
+                setTimeout(() => {
+                    letter.style.transform = `translateY(0vh)`;
+                }, blockDelay + letterIndex * 20); //adjust letter animate speed
             });
         });
-
-        imgRefs.forEach((image, index)=>{
-            const imgRect = image.getBoundingClientRect()
-            if(imgRect.top<=viewportHeight*0.8){
-                image.style.transform = 'scale(0.9)';
-                image.style.opacity = '1'
-            }
-        })
     }
+    
 
-    useEffect(()=>{
-        const imgRefs = experienceSlideImgRef.current
-        imgRefs.forEach((image, index)=>{
-            image.style.opacity = 0;
-        })
-    }, [])
-    useEffect(() => {
-        const handleLetterAnimationScroll = () => {
-            letterSlideUpAnimation();
-        };
-        window.addEventListener('scroll', handleLetterAnimationScroll);
-        return () => {
-            window.removeEventListener('scroll', handleLetterAnimationScroll);
-        };
-    }, [viewportHeight]);
-
+    function letterSlideDownAnimation(i) {
+        const textArrays = textRefs.current;
+        if (i < 0 || i >= textArrays.length) {
+            console.warn('Index out of bounds:', i);
+            return;
+        }
+        const selectedTextArray = textArrays[i];
+        
+        selectedTextArray.forEach((textBlock, textBlockIndex) => {
+            const blockDelay = textBlockIndex * 300; 
+    
+            textBlock.forEach((letter, letterIndex) => {
+                setTimeout(() => {
+                    letter.style.transform = `translateY(10vh)`;
+                }, blockDelay + letterIndex * 20);
+            });
+        });
+    }
+    
     const experienceSlideOffsetRef = useRef([])
 
     function experienceSlideAnimation (){
-        const slider = experienceSlideRef.current
-        slider.forEach((slide, index)=>{
-            const offset = experienceSlideOffsetRef.current[index]
-            const height = slide.offsetHeight
-            const percentage = (window.scrollY - offset)/height
-            const newPercentage = 1-percentage*0.35
-            if(window.scrollY>=offset){
-                slide.style.opacity = '1'
-                if(percentage>=0){
-                    slide.style.scale = `${newPercentage}`
-                }
-            }
-            else if(window.scrollY>offset+height){
+        const slideImgs = experienceSlideImgRef.current
+        const slides = experienceSlideRef.current
+        const slideTime = experienceTimeRef.current
+        const slideTracker = scrollTrackerRef.current
+        const slideTrackerWrapper = scrollTrackerWrapperRef.current
+        const sliderOffset = experienceSlideOffsetRef.current[0]
 
-            }
-        })
+        for (let i = 0; i<slideImgs.length; i++){
+            const iOffset = i*700
+            const trackerPercentage = ((window.scrollY-(sliderOffset+iOffset))/700)*100
+            const trackerPercentage2 = trackerPercentage>=0 ? 100-trackerPercentage : 100;
+            const scalePercentageInitial = ((window.scrollY-(sliderOffset+iOffset))/700)
+            const scalePercentage = 1-(scalePercentageInitial*0.1)
 
+            slideImgs[i].style.clipPath = window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset+700 ?
+                'inset(0 0 0 0)': 'inset(100% 0 0 0)';
+
+            slideImgs[i].style.opacity = window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset+700 ?
+                '1': '0';     
+
+            slideTrackerWrapper[i].style.opacity = window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset+700 ?
+                '1' : '0';
+
+            slideTracker[i].style.transform = `translateY(-${trackerPercentage2}%)`
+
+            slideTime[i].style.opacity = window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset+700 ?
+                '1' : '0';
+
+            window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset + 700 ?
+                letterSlideUpAnimation(i) : letterSlideDownAnimation(i);
+
+            if(window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset+700){
+                slideImgs[i].style.scale = `${scalePercentage}`
+            }
+        }
     }
-
     useEffect(()=>{
         const handleScroll = ()=>{
             experienceSlideAnimation()
@@ -233,6 +237,28 @@ function Experience() {
         }
         getSlideOffset()
     }, [])
+
+    const scrollTrackerRef = useRef([])
+    const scrollTrackerWrapperRef = useRef([])
+
+    const setScrollTracker = (index)=>(el)=>{
+        if(el){
+            scrollTrackerRef.current[index] = el
+        }
+    }
+    const setScrollTrackerWrapper = (index)=>(el)=>{
+        if(el){
+            scrollTrackerWrapperRef.current[index] = el
+        }
+    }
+
+    function ExperienceScrollTracker ({index}){
+        return (
+            <div className="experience-scroll-tracker-wrapper" ref={setScrollTrackerWrapper(index)}>
+                <span className="experience-scroll-tracker" ref={setScrollTracker(index)}></span>
+            </div>
+        )
+    }
 
     return (
         <section className="experience-section" ref={setExperienceWrapper}>

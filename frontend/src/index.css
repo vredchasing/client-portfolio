@@ -11,8 +11,10 @@ body{
   padding: 0px;
   margin: 0px;
   height: 800vh;
-  background-color: rgb(255, 252, 244);
+  background-color: rgb(254, 254, 254);
   scroll-behavior: smooth;
+  will-change: background-color;
+  transition: background-color 1s ease;
 }
 
 body::-webkit-scrollbar{
@@ -28,7 +30,7 @@ body::-webkit-scrollbar{
   pointer-events: none;
   transform: translate(-50%, -50%);
   transition: left 1s ease, top 1s ease;
-  z-index: 9999;
+  z-index: 999999;
 }
 .mainbody {
   padding: 0px;
@@ -71,31 +73,77 @@ body::-webkit-scrollbar{
 .header-wrapper {
   display: flex;
   width: 100%;
+  min-height: 10vh;
+  max-height: 10vh;
   position: fixed;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 999999;
+  pointer-events: none;
 }
 
 .logo-container {
-  width: 120px;
-  rotate: 33deg;
+  display: flex;
+  flex: 1;
+  margin-left: 40px;
 }
 
 .logo {
   width: 100%;
   object-fit: cover;
   border-radius: 100px;
+  font-family: 'Squada One';
+  font-size: 50px;
+  color: rgb(0, 0, 0);
+  margin: 0px;
+  display: inline-block;
+  transform: scaleX(1.05);
+
 }
 
+.menu-container {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+  margin-right: 40px;
+  will-change: scale;
+  transition: scale 0.3s ease;
+  z-index: 99999;
+  cursor: pointer;
+}
+.menu-icon-container {
+  display: flex;
+  align-items: center;
+  width: 17px;
+}
+
+.menu-icon{
+  width: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.menu-text {
+  margin: 0px;
+  font-family: 'Roboto';
+  font-size: 15px;
+  margin-left: 5px;
+}
+
+.navbar-wrapper-main {
+  will-change: opacity;
+  transition: opacity 0.3s ease, scale 0.5s ease;
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
 .navbar-wrapper {
-  right: 0px;
-  width: 5vw;
+  width: max-content;
 }
 
 .navbar {
   display: flex;
-  position: fixed;
-  right: 0px;
-  height: 100vh;
-  width: 5vw;
+  width: max-content;
   justify-content: center;
   align-items: center;
   z-index:9999;
@@ -105,29 +153,192 @@ body::-webkit-scrollbar{
   display: flex;
   height: max-content;
   list-style: none;
-  rotate: -90deg;
   gap: 20px;
   font-family: "Montserrat", sans-serif;
   font-weight: 800;
   font-size: 13px;
+  padding: 0px;
+  margin: 0px;
 }
 li{
-  will-change: scale;
-  transition: scale 0.3s ease;
+  will-change: padding-left;
+  transition: padding-left 0.3s ease;
   cursor: pointer;
 }
 li:hover{
-  scale: 1.1;
+  padding-left: 2.5vw;
 }
-.home-fixed-content1 {
+
+
+/*MENU CSS*/
+
+.menu-section-wrapper {
+  display: none;
+  position: fixed;
+  z-index: 99999999;
+  top: 0px;
+  width: 100%;
+}
+.menu-section{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background-color: white;
+  will-change: opacity;
+  transition: opacity 0.3s ease;
+  z-index: 99999999;
+}
+
+.close-menu-container{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 40px;
+  height: 10vh;
+  cursor: pointer;
+}
+.close-menu-img-container {
+  display: flex;
+  align-items: center;
+  width: 17px;
+  will-change: scale;
+  transition: scale 0.2s ease-in-out;
+}
+.close-menu-img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.close-menu-text {
+  margin: 0px;
+  font-family: "Roboto";
+  padding-left: 5px;
+  font-size: 15px;
+}
+
+.menu-section-top{
+  display: flex;
+  width: 100%;
+  height: 80vh;
+}
+.menu-top-left {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+.menu-pg-logo-container {
+  display: flex;
+  height: max-content;
+}
+.menu-pg-logo {
+  font-family: 'Squada One';
+  font-size: 200px;
+  background-image: url('textbackground2.webp');
+  background-clip: text;
+  -webkit-background-clip: text; /* For WebKit browsers */
+  color: rgba(129, 124, 124, 0.381);
+  margin: 0px;
+}
+
+.menu-top-right{
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.menu-links-ul {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 5px;
+  list-style: none;
+  margin-left: 5vw;
+}
+
+.menu-links {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 60px;
+  letter-spacing: 1.5px;
+  display: inline-block;
+  transform: scaleX(1.05);
+}
+.menu-section-bottom{
+  display: flex;
+}
+.menu-bottom-left {
+  display: flex;
+  flex: 1;
+}
+
+.menu-email-container {
+  display: flex;
+  padding-left: 10vw;
+}
+.menu-email-text {
+  font-family: 'Roboto';
+  letter-spacing: 1px;
+  display: inline-block;
+  transform: scaleX(1.05);
+}
+
+.menu-bottom-right {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  gap: 5vw;
+}
+
+.menu-phone-number-container {
+  display:flex;
+  align-items: center;
+}
+
+.menu-phone-number-text {
+  font-family: 'Roboto';
+  letter-spacing: 1px;
+  display: inline-block;
+  transform: scaleX(1.05);
+  margin: 0px;
+}
+
+.menu-linkedin-container {
+  display: flex;
+}
+
+.menu-linkedin-text {
+  font-family: 'Roboto';
+  letter-spacing: 1px;
+  display: inline-block;
+  transform: scaleX(1.05);
+}
+
+.menu-instagram-container {
+  display: flex;
+}
+
+.menu-instagram-text {
+  font-family: 'Roboto';
+  letter-spacing: 1px;
+  display: inline-block;
+  transform: scaleX(1.05);
+}
+
+
+.home-landing-page-wrapper {
   height: max-content;
 
 }
 .home1-content-wrapper {
   display: flex;
+  flex-direction: column;
   top: 0px;
   justify-content: center;
-  height: 200vh;
+  align-items: center;
+  height: 100vh;
   width: 100%;
   will-change: opacity;
   transition: opacity 0.5s ease;
@@ -145,87 +356,133 @@ li:hover{
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 100vh;
+  height: max-content;
   align-items: center;
   gap: 25px;
   will-change: scale;
   transition: scale 01s ease, opacity 0.5s ease-in-out;
 }
 
+.home1-text-top-wrapper {
+  display: flex;
+  height: max-content;
+  gap: 15px;
+}
 
-.home1-text-container-bottom {
+
+/*Landing hero page text slider css*/
+
+.landing-page-slider-wrapper {
+  display: flex;
+  width: 250px;
+  overflow: hidden;
+  -webkit-mask: linear-gradient(
+    90deg,
+    transparent,
+    white 5%,
+    white 95%,
+    transparent
+  );
+  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+  margin-top: 15px;
+}
+.landing-page-slider {
+  display: flex;
+  animation: infiniteSlider 10s linear;
+  animation-iteration-count: infinite;
+
+}
+
+.landing-page-slider-span {
+  display: flex;
+  width: 10px;
+  margin: 0 5px 0 5px;
+}
+
+.landing-page-slider-span-img {
+  width: 100%;
+  object-fit: contain;
+}
+
+
+.landing-page-slider-text {
+  display: flex;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  text-wrap: nowrap;
+  margin: 0 10px 0 10px;
+}
+
+
+
+/*ABOUT CSS*/
+
+.home-about-section {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 70vw;
-  height: 70vh;
-  background-color:rgb(222, 222, 222);
-  border-radius: 20px;
-  box-shadow: 2px 6px 12px #00000014;
-
+  width: 100%;
+  height: 250vh;
+  position: relative;
 }
-.home1-text-container-bottom-wrapper {
+.home-about-wrapper {
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0px;
+  height: 100vh;
+}
+
+.home-about-left-wrapper {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  justify-content: center;
-  padding-left: 30px;
-  padding-right: 30px;
-  gap: 3vh;
-  opacity: 0;
-  scale: 0.8;
-  will-change: opacity, scale;
-  transition: opacity 1s ease, scale 1s ease;
-}
-
-.about-name-wrapper {
-  display: flex;
   justify-content: center;
   width: 100%;
-  gap: 5px;
-  overflow: hidden;
+  margin-left: 7vw;
 }
-
 .about-name-container {
   display: flex;
-  justify-content: center;
-  width: 60%;
+  justify-content: start;
+  width: 100%;
   gap: 8px;
+  transition: opacity 1s ease;
+  opacity: 0;
 }
 .about-word-span {
-  transform: translateY(10vh);
   will-change: transform;
   transition: transform 0.5s ease;
 }
 
 .homeText5{
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.9px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  letter-spacing: 1px;
   line-height: 1.2;
-  font-size: 25px;
+  font-size: 30px;
   text-align: left;
   width: 100%;
   height: max-content;
-  font-weight: 700;
+  display: inline-block;
+  text-wrap: nowrap;
 }
 
 .about-p-wrapper {
   display: flex;
-  justify-content: center;
   width: 100%;
+  transition: opacity 1s ease;
+  opacity: 0;
 }
 .homeText5v2{
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
-  letter-spacing: 0px;
+  display: flex;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  letter-spacing: 1px;
   line-height: 1.2;
-  font-size: 27px;
-  text-align: center;
-  width: 80%;
+  font-size: 30px;
+  text-align: left;
+  width: 100%;
   height: max-content;
   margin: 0px;
-  font-weight: 700;
+  text-wrap: wrap;
 }
 .signature-wrapper {
   width: 100%;
@@ -239,7 +496,7 @@ li:hover{
 }
 .signature {
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 .name {
   color: rgb(79, 79, 79);
@@ -263,7 +520,7 @@ li:hover{
   overflow: hidden;
 }
 .letter {
-  font-family: "Montserrat";
+  font-family: "Montserrat", sans-serif;
   font-weight: 800;
   font-size: 70px;
   color: rgb(29, 29, 29);
@@ -282,36 +539,44 @@ li:hover{
 }
 .experience-slider-wrapper{
   top: 0px;
+  height: 600vh;
 }
 .experience-slider {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: max-content;
+  position: sticky;
+  top: 0px;
 }
 
 .experience-slide {
   display: flex;
   width: 100%;
   align-items: center;
+  justify-content: space-between;
   will-change: transform, opacity;
-  transition: transform 1s ease, opacity 1s ease;
-  opacity: 1;
-  height: 100vh;
-  position: sticky;
+  transition: transform 1s ease, opacity 0.5s ease;
+  height: 100svh;
+  position: absolute;
   top: 0px;
-  background-color: white;
-  opacity: 0;
-
+  opacity: 1;
 }
 
+.experience-slide-image-wrapper {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
 .experience-slide-image-container{
   display: flex;
   width: 500px;
   height: max-content;
-  will-change: transform, opacity;
-  transition: transform 1s ease, opacity 1s ease;
-  position: absolute;
+  will-change: scale, clip-path, opacity;
+  transition: scale 0.1s ease, clip-path 0.5s ease, opacity 0.4s ease;
+  clip-path: inset(100% 0 0 0);
+  scale: 0.9;
+  padding: 0px 20px 0px 20px;
 }
 
 .experience-slide-image{
@@ -328,14 +593,13 @@ li:hover{
   width: 100%;
   overflow: hidden;
   margin-top: 15vh;
-  margin-bottom: 15vh;
 }
 .experience-title-container{
   display: flex;
   width: max-content;
   justify-content: start;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 20px;
+  margin-right: 10px
 }
 .experience-title {
   font-family: "Montserrat", sans-serif;
@@ -348,14 +612,14 @@ li:hover{
 
 .experience-text-wrapper {
   display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 50%;
+  justify-content: end;
+  align-items: center;
+  flex: 1;
   margin: 0;
-  transform: translateY(-50%);
-  font-family: "Montserrat";
-  font-size: 40px;
+  font-family: "Ubuntu";
+  font-size: 16px;
   z-index: 999;
+  gap: 5px;
 }
 .text-block {
   display: flex;
@@ -368,6 +632,45 @@ li:hover{
   will-change: transform;
   transition: transform 1s ease;
   transform: translateY(10vh);
+  font-size: 16px;
+}
+
+.time-wrapper {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex: 1;
+  top: 50%;
+}
+
+.time-text {
+  display: flex;
+  font-family: "Ubuntu";
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 0 20px;
+  will-change: opacity;
+  transition: opacity 0.5s ease;
+}
+
+
+/* Experience scroll tracker*/
+
+.experience-scroll-tracker-wrapper {
+  display: flex;
+  background-color: rgb(100, 100, 100);
+  height: 150px;
+  overflow: hidden;
+  border-radius: 10px;
+  will-change: opacity;
+  transition: opacity 0.3s ease;
+  box-shadow: 2px 6px 12px #00000014;
+}
+.experience-scroll-tracker {
+  width: 3.325px;
+  height: 150px;
+  background-color: rgb(213, 213, 213);
+  transform: translateY(-100%);
 }
 /*Projects*/
 
@@ -453,6 +756,9 @@ li:hover{
   z-index: 9999;
   height: 100%;
 }
+.project-container-main {
+  padding: 80px 0 80px 0;
+}
 .project-container {
   display: flex;
   justify-content: center;
@@ -467,7 +773,7 @@ li:hover{
   flex-direction: column;
   height: max-content;
   border-radius: 10px;
-  padding: 80px;
+  position: relative;
 }
 .project-image {
   width: 100%;
@@ -491,6 +797,18 @@ li:hover{
 
 .project-name-container {
   position: absolute;
+  right: 10px;
+  bottom: 10px;
+  border-radius: 40px;
+  background-color: rgb(235, 235, 235);
+  box-shadow: 2px 6px 12px #00000014;
+  
+}
+.project-name {
+  margin: 0px;
+  padding: 7px;
+  font-family: 'Roboto';
+  font-size: 12px;
 }
 
 .left-arrow-container {
@@ -555,8 +873,8 @@ li:hover{
 .slide-tracker-span {
   display: flex;
   border-radius: 100%;
-  height: 10px;
-  width: 10px;
+  height: 8px;
+  width: 8px;
   margin: 5px;
   background-color: rgb(169, 169, 169);
   will-change: background-color;
@@ -573,6 +891,7 @@ li:hover{
   height: max-content;
   width: max-content;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .view-more-button {
@@ -583,6 +902,7 @@ li:hover{
   background-color: rgb(197, 197, 197);
   font-family: "Roboto";
   font-weight: 500;
+  cursor: pointer;
 }
 
 /* Footer CSS */
@@ -590,17 +910,13 @@ li:hover{
   display: flex;
   justify-content: center;
   width: 100%;
-  height: max-content;
+  height: 100vh;
   margin-top: 15vh;
 }
 .footer-wrapper {
   display: flex;
-  width: 80vw;
-  height: 20vh;
-  margin-top: 15vh;
-  border-top: 1.334px solid rgb(152, 152, 152);
-  border-radius: 1px;
-
+  flex-direction: column;
+  padding-top: 20vh;
 }
 
 .footer-left{
@@ -650,4 +966,20 @@ li:hover{
 .contact-icon {
   width: 100%;
   object-fit: cover;
+}
+
+
+
+
+
+
+/*ANIMATIONS*/
+
+@keyframes infiniteSlider {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%)
+  }
 }

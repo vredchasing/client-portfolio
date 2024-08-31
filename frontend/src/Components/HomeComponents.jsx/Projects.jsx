@@ -6,10 +6,10 @@ function Projects() {
     const [centerIndexState, setCenterIndexState] = useState(0);
 
     const projects = [
-        { name: '1', img: 'technology.webp' },
-        { name: '1', img: 'future.webp' },
-        { name: '1', img: 'technology.webp' },
-        { name: '1', img: 'technology.webp' }
+        { name: 'PROJECT 1', img: 'technology.webp' },
+        { name: 'PROJECT 2', img: 'future.webp' },
+        { name: 'PROJECT 3', img: 'technology.webp' },
+        { name: 'PROJECT 4', img: 'technology.webp' }
     ];
 
     // Refs
@@ -148,10 +148,14 @@ function Projects() {
             <div className="projects-slider-wrapper">
                 <div className="projects-slider1" ref={projectSlider1Ref}>
                     {projects.map((project, index) => (
-                        <div key={index} className="project-container" ref={(el) => projectsSlidesRef.current[index] = el}>
-                            <div className="project">
-                                <img className="project-image" src={project.img} alt={project.name} />
-                                <div className="project-name-container"></div>
+                        <div className="project-container-main">
+                            <div key={index} className="project-container" ref={(el) => projectsSlidesRef.current[index] = el}>
+                                <div className="project">
+                                    <img className="project-image" src={project.img} alt={project.name} />
+                                    <div className="project-name-container">
+                                        <h1 className="project-name">{project.name}</h1>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     ))}

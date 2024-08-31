@@ -14,7 +14,6 @@ function App() {
     <section className='mainbody'>
       <CustomCursorTracker></CustomCursorTracker>
       <Header></Header>
-      <Navbar></Navbar>
       <Outlet></Outlet>
       <Footer></Footer>
     </section>
