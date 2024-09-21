@@ -1257,25 +1257,47 @@ li:hover{
 
 /*PROJECT PAGE CSS*/
 
-.project-page-wrapper{
-  padding-top: 13vh;
+.project-page-main-wrapper {
   display: flex;
-  justify-content: center;
   flex-direction: column;
-}
-.project-page-image-main-wrapper{
-  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  justify-content: center;
 }
-.project-page-image-wrapper{
-  width: 50vw;
-  height: 65vh;
+
+.project-page-wrapper{
   display: flex;
   justify-content: center;
+  gap: 5vw;
+  flex-direction: row;
+  width: 80vw;
   background-color:rgb(222, 222, 222);
   border-radius: 15px;
   box-shadow: 2px 6px 12px #00000014;
+}
+.project-page-title-container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5vh;
+  padding-top: 15vh;
+}
+.project-page-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 50px;
+  margin: 0px;
+  letter-spacing: 20px;
+}
+.project-page-images-main-wrapper{
+  display: flex;
+  width: max-content;
+  justify-content: center;
+}
+.project-page-image-wrapper{
+  width: max-content;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .project-page-image-container {
   height: 55vh;
@@ -1290,14 +1312,52 @@ li:hover{
   object-fit: contain;
   box-shadow: 2px 6px 12px #00000014;
 }
+.project-page-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding-top: 13vh;
+}
 .project-page-name-container{
-  border: 1px solid red;
+  display: flex;
+  justify-content: center;
+  width: max-content;
 }
 .project-page-name{
-  font-family: 'Roboto';
+  display: flex;
+  width: 200px;
+  margin: 0px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  font-size: 23px;
+  text-align: left;
+  height: max-content;
+  text-wrap: wrap;
+  width: max-content;
+  border-radius: 10px;
 }
-.project-page-description-wrapper{}
-.project-page-description
+.project-page-description-wrapper{
+  display: flex;
+  justify-content: center;
+}
+.project-page-description {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 200px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  font-size: 20px;
+  text-align: left;
+  height: max-content;
+  text-wrap: wrap;
+  width: 20vw;
+  background-color:rgb(222, 222, 222);
+  border-radius: 10px;
+}
 
 
 
