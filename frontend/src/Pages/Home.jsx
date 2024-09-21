@@ -1,7 +1,8 @@
 import { useRef, useState, useEffect } from "react"
-import Scrollbar from 'smooth-scrollbar';
 import Experience from "../Components/HomeComponents.jsx/Experience";
 import Projects from "../Components/HomeComponents.jsx/Projects";
+import AboutSlider from "../Components/HomeComponents.jsx/AboutSlider";
+import AllProjects from "../Components/HomeComponents.jsx/AllProjects";
 
 const homeText1 = ['H', 'e', 'l', 'l', 'o']
 const homeText2 = [',']
@@ -11,6 +12,15 @@ const aboutNameIntro = ['My', 'name', 'is']
 
 const experienceTitle = ['E','X','P','E','R','I','E','N','C','E']
 const projectsTitle = ['P','R','O','J','E','C','T','S']
+
+const projects = [
+    { name: 'PROJECT 1', img: 'technology.webp', description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Laoreet phasellus egestas proin aliquet ad est scelerisque.' },
+    { name: 'PROJECT 2', img: 'future.webp', description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Laoreet phasellus egestas proin aliquet ad est scelerisque.' },
+    { name: 'PROJECT 3', img: 'technology.webp', description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Laoreet phasellus egestas proin aliquet ad est scelerisque.' },
+    { name: 'PROJECT 4', img: 'technology.webp', description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Laoreet phasellus egestas proin aliquet ad est scelerisque.' },
+    { name: 'PROJECT 3', img: 'technology.webp', description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Laoreet phasellus egestas proin aliquet ad est scelerisque.' },
+    { name: 'PROJECT 3', img: 'technology.webp', description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Laoreet phasellus egestas proin aliquet ad est scelerisque.' },
+];
 
 
 function Home (){
@@ -137,7 +147,7 @@ function Home (){
     function CreateLetterText3 ({letter, index}){
         return(
             <div className='letter-container' ref={setHomeText3LetterContainer(index)}>
-                <h1 className='letter' ref={setHomeText3LetterRef(index)}>{letter}</h1>
+                <h1 className='letter3' ref={setHomeText3LetterRef(index)}>{letter}</h1>
             </div>
         )
     }   
@@ -290,8 +300,10 @@ function Home (){
         aboutText1Ref.current[index] = el
     }
 
-
+    const aboutSliderForwardedRefs = useRef()
     function aboutTextAnimation(){
+        const aboutSliderAnimation = aboutSliderForwardedRefs.current.aboutSliderAnimation
+        const aboutSliderCloseAnimation = aboutSliderForwardedRefs.current.aboutSliderCloseAnimation
         const aboutName = aboutNameRef.current
         const aboutParagraph = aboutParagraphRef.current
         const offset = aboutRefOffset.current
@@ -302,6 +314,8 @@ function Home (){
 
         aboutName.style.opacity = window.scrollY>=offset && window.scrollY<offset+transitionPoint ?
             '1' : '0.1';
+        window.scrollY>=offset && window.scrollY<offset+transitionPoint ?
+            aboutSliderAnimation(): aboutSliderCloseAnimation()
         aboutParagraph.style.opacity = window.scrollY>=offset+transitionPoint ? 
             '1' : '0.1';
     }
@@ -326,8 +340,53 @@ function Home (){
     }, [viewportHeight, viewportWidth])
 
 
+    function viewMoreClickAnimation (){
+        const projectsWrapper = projectsSectionWrapperRef.current
+        projectsWrapper.style.transform = 'translateX(-100vw)'
+    }
+    function backButtonClickAnimation (){
+        const projectsWrapper = projectsSectionWrapperRef.current
+        projectsWrapper.style.transform = 'translateX(0vw)'
+    }
+
+    const projectsForwardedRefs = useRef()
+    const allProjectsForwardedRefs = useRef()
+    const projectsSectionWrapperRef = useRef()
+    const setProjectsSectionWrapperRef = (el)=>{
+        if(el){
+            projectsSectionWrapperRef.current = el
+        }
+    }
+    useEffect(()=>{
+        const viewMoreButton = projectsForwardedRefs.current.viewMoreButtonRef
+        const backButton = allProjectsForwardedRefs.current.backButtonRef
+        const handleViewMoreButtonClick = ()=>{
+            viewMoreClickAnimation()
+        }
+        const handleBackButtonClick = ()=>{
+            backButtonClickAnimation()
+        }
+        viewMoreButton.addEventListener('click', handleViewMoreButtonClick)
+        backButton.addEventListener('click', handleBackButtonClick)
+        return ()=>{
+            viewMoreButton.removeEventListener('click', handleViewMoreButtonClick)
+            backButton.removeEventListener('click', handleBackButtonClick)
+        }
+    },[])
 
 
+    const landingPageSliderRef = useRef()
+    const setLandingPageSliderRef = (el) =>{
+        if(el){
+            landingPageSliderRef.current = el
+        }
+    }
+
+    useEffect(()=>{
+        const landingPageSlider = landingPageSliderRef.current
+        landingPageSlider.style.opacity = '1'
+        landingPageSlider.style.transform = 'translateY(0vh)'
+    }, [])
 
     return(
         <section className='home-wrapper'>
@@ -361,30 +420,33 @@ function Home (){
                             </div>
                         </div>
                     </div>
+                    
 
-                    <div className="landing-page-slider-wrapper">
-                        <div className="landing-page-slider">
-                            <span className="landing-page-slider-span">
-                                <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
-                            </span>
-                            <h1 className="landing-page-slider-text">A COLLECTION OF WORKS</h1>
-                            <span className="landing-page-slider-span">
-                                <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
-                            </span>
-                            <h1 className="landing-page-slider-text">कामहरूको संग्रह</h1>
+                    <div className="landing-page-slider-wrapper-main">
+                        <div className="landing-page-slider-wrapper" ref={setLandingPageSliderRef}>
+                            <div className="landing-page-slider">
+                                <span className="landing-page-slider-span">
+                                    <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
+                                </span>
+                                <h1 className="landing-page-slider-text">A COLLECTION OF WORKS</h1>
+                                <span className="landing-page-slider-span">
+                                    <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
+                                </span>
+                                <h1 className="landing-page-slider-text">कामहरूको संग्रह</h1>
+                            </div>
+
+                            <div className="landing-page-slider">
+                                <span className="landing-page-slider-span">
+                                    <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
+                                </span>
+                                <h1 className="landing-page-slider-text">A COLLECTION OF WORKS</h1>
+                                <span className="landing-page-slider-span">
+                                    <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
+                                </span>
+                                <h1 className="landing-page-slider-text">कामहरूको संग्रह</h1>
+                            </div>
+
                         </div>
-
-                        <div className="landing-page-slider">
-                            <span className="landing-page-slider-span">
-                                <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
-                            </span>
-                            <h1 className="landing-page-slider-text">A COLLECTION OF WORKS</h1>
-                            <span className="landing-page-slider-span">
-                                <img className="landing-page-slider-span-img" src="close-menu.svg"></img>
-                            </span>
-                            <h1 className="landing-page-slider-text">कामहरूको संग्रह</h1>
-                        </div>
-
                     </div>
 
                 </div>
@@ -412,10 +474,11 @@ function Home (){
                         </div>
                     </div>
 
-                    <div className="signature-wrapper">
-                        <div className="signature-container">
+                    <div className="about-slider-main-wrapper">
+                        <div className="signature-wrapper">
                             <img className="signature" src="signature.png"></img>
                         </div>
+                        <AboutSlider ref={aboutSliderForwardedRefs}></AboutSlider>
                     </div>
                 </div>
             </div>
@@ -436,8 +499,17 @@ function Home (){
                     })}
                 </div>
             </section>
-            <section className="projects-section">
-                <Projects></Projects>
+            <section className="projects-section-main-wrapper">
+                <section className="projects-section-wrapper" ref={setProjectsSectionWrapperRef}>         
+                    <section className="projects-wrapper-main">
+                        <Projects ref={projectsForwardedRefs}></Projects>
+                    </section>
+                    <section className="all-projects-wrapper-main">
+                        <div className="all-projects-wrapper">
+                            <AllProjects array={projects} ref={allProjectsForwardedRefs}></AllProjects>
+                        </div>
+                    </section>
+                </section>
             </section>
         </section>
     )

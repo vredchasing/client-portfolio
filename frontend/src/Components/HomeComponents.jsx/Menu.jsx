@@ -1,70 +1,105 @@
-import { useEffect, useRef } from "react"
+import React, { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 
-function Menu (){
-    const menuSectionRef = useRef()
-    const closeMenuRef = useRef()
-    const closeMenuImgRef = useRef()
+const Menu = forwardRef((props, ref) => {
 
-    const setMenuSectionRef = (el)=>{
+    const menuLinks = [
+        {linkName:'HOME', linkSrc:''},
+        {linkName:'ABOUT', linkSrc:''},
+        {linkName:'PROJECTS', linkSrc:''},
+        {linkName:'CONTACT', linkSrc:''},
+    ]
+
+    function CreateMenuLink ({link, index}){
+        return (
+            <li className="menu-links" ref={setMenuLinkRef(index)}>{link.linkName}</li>
+        )
+    }
+
+    const menuLinkRef = useRef([])
+    const setMenuLinkRef = (index)=>(el)=>{
         if(el){
-            menuSectionRef.current = el
-        }
-    }
-    const setCloseMenuRef = (el)=>{
-        if(el){
-            closeMenuRef.current = el
-        }
-    }
-    const setCloseMenuImgRef = (el)=>{
-        if(el){
-            closeMenuImgRef.current = el
+            menuLinkRef.current[index] = el 
         }
     }
 
-    function closeMenuClick (){
-        const menuSection = menuSectionRef.current
-        closeMenuRef.style.opacity = '0'
-        closeMenuRef.style.pointerEvents = 'none'
+    function menuOpenLinksAnimation (){
+        const menuLinks = menuLinkRef.current
+        menuLinks.forEach((link, index)=>{
+            setTimeout(()=>{
+                link.style.scale = '0.9'
+                link.style.opacity = '1'
+            },index*70)
+        })
     }
 
-    function closeMenuHover (){
-        const closeMenuImg = closeMenuImgRef.current
-        closeMenuImg.style.scale = '1.25'
+    function menuCloseLinksAnimation (){
+        const menuLinks = menuLinkRef.current
+        menuLinks.forEach((link, index)=>{
+            setTimeout(()=>{
+                link.style.scale = '1'
+                link.style.opacity = '0'
+            },index*50)
+        })
     }
 
-    function closeMenuUnhover (){
-        const closeMenuImg = closeMenuImgRef.current
-        closeMenuImg.style.scale = '1'
+
+    const menuSectionRef = useRef();
+    const closeMenuRef = useRef();
+    const closeMenuImgRef = useRef();
+
+    useImperativeHandle(ref, ()=>({
+        closeMenu : closeMenuRef.current,
+        menuOpenLinksAnimation : menuOpenLinksAnimation,
+        menuCloseLinksAnimation : menuCloseLinksAnimation
+    }))
+    const setMenuSectionRef = (el) => {
+        if (el) {
+            menuSectionRef.current = el;
+        }
+    };
+    const setCloseMenuRef = (el) => {
+        if (el) {
+            closeMenuRef.current = el;
+        }
+    };
+    const setCloseMenuImgRef = (el) => {
+        if (el) {
+            closeMenuImgRef.current = el;
+        }
+    };
+
+    function closeMenuHover() {
+        const closeMenuImg = closeMenuImgRef.current;
+        closeMenuImg.style.scale = '1.25';
     }
 
-    useEffect(()=>{
-        const closeMenu = closeMenuRef.current
-        const handleClick = ()=>{
-            closeMenuClick()
-        }
-        const handleHover = ()=>{
-            closeMenuHover()
-        }
-        const handleUnhover = ()=>{
-            closeMenuUnhover()
-        }
+    function closeMenuUnhover() {
+        const closeMenuImg = closeMenuImgRef.current;
+        closeMenuImg.style.scale = '1';
+    }
 
-        closeMenu.addEventListener('click', handleClick)
-        closeMenu.addEventListener('mouseover', handleHover)
-        closeMenu.addEventListener('mouseout', handleUnhover)
+    useEffect(() => {
+        const closeMenu = closeMenuRef.current;
+        const handleHover = () => {
+            closeMenuHover();
+        };
+        const handleUnhover = () => {
+            closeMenuUnhover();
+        };
+        closeMenu.addEventListener('mouseover', handleHover);
+        closeMenu.addEventListener('mouseout', handleUnhover);
 
-        return()=>{
-            closeMenu.removeEventListener('click', handleClick)
-            closeMenu.removeEventListener('mouseover', handleHover)
-        }
+        return () => {
+            closeMenu.removeEventListener('mouseover', handleHover);
+            closeMenu.removeEventListener('mouseout', handleUnhover);
+        };
+    }, []);
 
-    },[])
-
-    return(
+    return (
         <section className="menu-section" ref={setMenuSectionRef}>
-            <div className="close-menu-container"  ref={setCloseMenuRef}>
+            <div className="close-menu-container" ref={setCloseMenuRef}>
                 <div className="close-menu-img-container" ref={setCloseMenuImgRef}>
-                    <img className="close-menu-img" src="close-menu.svg"></img>
+                    <img className="close-menu-img" src="close-menu.svg" alt="Close Menu" />
                 </div>
                 <h1 className="close-menu-text">CLOSE MENU</h1>
             </div>
@@ -76,10 +111,11 @@ function Menu (){
                 </div>
                 <div className="menu-top-right">
                     <ul className="menu-links-ul">
-                        <li className="menu-links">HOME</li>
-                        <li className="menu-links">ABOUT</li>
-                        <li className="menu-links">PROJECTS</li>
-                        <li className="menu-links">CONTACT</li>
+                        {menuLinks.map((link, index)=>{
+                            return (
+                                <CreateMenuLink key={index} link={link} index={index}></CreateMenuLink>
+                            )
+                        })}
                     </ul>
                 </div>
             </section>
@@ -102,7 +138,7 @@ function Menu (){
                 </div>
             </section>
         </section>
-    )
-}
+    );
+});
 
-export default Menu
+export default Menu;

@@ -22,8 +22,9 @@ function CustomCursorTracker() {
 
   useEffect(() => {
     const handleCursorMovement = (e) => {
-      setOpacity(0); // Fade out before moving
+      setOpacity(1);
       updateCursorPosition(e);
+      cursorTrackerRef.current.style.opacity = '1'
     };
 
     window.addEventListener('mousemove', handleCursorMovement);
@@ -40,7 +41,6 @@ function CustomCursorTracker() {
     <span
       className="cursor-tracker"
       ref={cursorTrackerRef}
-      style={{ opacity, transition: 'opacity 1s ease' }} // Smooth opacity transition
     ></span>
   );
 }

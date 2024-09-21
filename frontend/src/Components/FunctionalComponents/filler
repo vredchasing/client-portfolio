@@ -1,71 +1,46 @@
-
-    function experienceSlideAnimation (){
-        const slideImgs = experienceSlideImgRef.current
-        const slides = experienceSlideRef.current
-        const slideTracker = scrollTrackerRef.current
-        slideImgs.forEach((slide, index)=>{
-            const offset = experienceSlideOffsetRef.current[index]
-            const height = slide.offsetHeight
-            const percentage = (window.scrollY - offset)/height
-            const trackerPercentage = 100-(percentage*100)
-            if(index===0){
-                console.log(percentage)
-            }
-            const newPercentage = 1-percentage*0.15
-            if(window.scrollY>=offset && window.scrollY<offset+height){
-                slide.style.opacity = '1'
-                slide.style.clipPath = 'inset(0 0 0 0)'
-                slideTracker[index].style.transform = `translateY(-${trackerPercentage}%)`
-                if(percentage>0){
-                    slide.style.scale = `${newPercentage}`
-                    slides[index].style.opacity = '1'
-                }
-            }
-            if(window.scrollY>offset+height){
-                slideTracker[index].style.transform = `translateY(-${trackerPercentage}%)`
-                slide.style.scale = `${newPercentage}`
-                slide.style.clipPath = 'inset(100% 0 0 0)'
-            }
-            if(window.scrollY<offset){
-                slide.style.opacity = '1'
-                slide.style.clipPath = 'inset(100% 0 0 0)'
-                slideTracker[index].style.transform = `translateY(-${trackerPercentage}%)`
-                if(percentage>0){
-                    slide.style.scale = `${newPercentage}`
-                    slides[index].style.opacity = '1'
-                }
-            }
-        })
-
-
-
-    }
-
-
-    const slides = slidesRef.current
-    const offset = sliderOffsetRef.current
-    for (let i = 0; i<slides.length; i++){
-        let iOffset = i*500
-        if(window.scrollY>=offset+iOffset){
-            slides[i].style.clipPath = 'inset(0 0 0 0)'
+var isPalindrome = function(s) {
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('')
+    const alteredArr = s.trim().toLowerCase().split(' ')
+    for(let i=0;i<alteredArr.length; i++){
+        if(alphabet.includes(alteredArr[i])===false){
+            alteredArr.splice(i,1)
+            i--
         }
     }
-
-
-
-
-
-    //this is code to scale down a slides center image as you scroll. I have it so that if the slide isn't stuck to the top
-    //it will have the original scale, but once the slide has reached the sticky top, percentage will start at 0 and count
-    //as percentage grows we subtract 1-percentage*0.1, to get a scale down effect, as percentage grows we subtract it from 1, 1->0.99->0.98 etc...
-    //final percentage = 1-100*0.1 to calcualte the final scale value when percentage = 100% (the slide has scrolled fully.)
-
-    if(window.scrollY<sliderOffset + iOffset){
-        slideImgs[i].style.scale = '1'
+    const reversedArr = alteredArr.reverse()
+    console.log('rev',reversedArr,'alt', alteredArr)
+    if(reversedArr===alteredArr){
+        return true
     }
-    else if (window.scollY>=sliderOffset + iOffset && window.scrollY<= sliderOffset + iOffset+700){
-        slideImgs[i].style.scale = `${percentage}`
+    else{
+        return false
     }
-    else if (window.scrollY>sliderOffset+iOffset+700){
-        slideImgs[i].style.scale = `${finalPercentage}`
+};
+
+isPalindrome("A man, a plan, a canal: Panama")
+
+
+
+
+
+
+
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(prices) {
+    let highestProfit = 0
+    for(let i =0; i<prices.length; i++){
+        let j = i
+        for(j; j<prices.length; j++){
+            if(prices[j]>=prices[i]){
+                let currentProfit = prices[j]-prices[i]
+                if(currentProfit>=highestProfit){
+                    highestProfit = currentProfit
+                }
+            }
+        }
     }
+    return highestProfit
+};

@@ -9,10 +9,10 @@ function Footer (){
                 </div>
                 <div className="menu-top-right">
                     <ul className="menu-links-ul">
-                        <li className="menu-links">HOME</li>
-                        <li className="menu-links">ABOUT</li>
-                        <li className="menu-links">PROJECTS</li>
-                        <li className="menu-links">CONTACT</li>
+                        <li className="footer-links">HOME</li>
+                        <li className="footer-links">ABOUT</li>
+                        <li className="footer-links">PROJECTS</li>
+                        <li className="footer-links">CONTACT</li>
                     </ul>
                 </div>
             </section>

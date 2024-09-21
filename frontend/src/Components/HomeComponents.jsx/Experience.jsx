@@ -6,6 +6,7 @@ function Experience() {
             img: 'future.webp',
             projectName: [['C', 'Y', 'B', 'E', 'R', 'S', 'E', 'C', 'U', 'R', 'I', 'T', 'Y']],
             time : '1 YEAR',
+            index: '1',
             projectLink: '',
             alignProjectImg: '',
             animateSpeed: 0.3
@@ -14,6 +15,7 @@ function Experience() {
             img: 'cybersecurity.jpg',
             projectName: [['N', 'E', 'T', 'W', 'O', 'R', 'K'], ['D', 'E', 'S', 'I', 'G', 'N']],
             time : '2 YEARS',
+            index: '2',
             projectLink: '',
             alignProjectImg: '',
             animateSpeed: 0.4
@@ -22,14 +24,16 @@ function Experience() {
             img: 'workers.gif',
             projectName: [['I', 'N', 'F', 'O', 'R', 'M', 'A', 'T', 'I', 'O', 'N'], ['T', 'E', 'C', 'H', 'N', 'O', 'L', 'O', 'G', 'Y']],
             time : '1 YEAR',
+            index: '3',
             projectLink: '',
             alignProjectImg: '',
             animateSpeed: 0.6
         },
         {
-            img: 'future.webp',
+            img: 'city.gif',
             projectName: [['V', 'I', 'R', 'T', 'U', 'A', 'L', 'I', 'Z', 'A', 'T', 'I', 'O', 'N']],
             time : '1 YEAR',
+            index: '4',
             projectLink: '',
             alignProjectImg: '',
             animateSpeed: 0.8
@@ -190,14 +194,15 @@ function Experience() {
         const slideTime = experienceTimeRef.current
         const slideTracker = scrollTrackerRef.current
         const slideTrackerWrapper = scrollTrackerWrapperRef.current
-        const sliderOffset = experienceSlideOffsetRef.current[0]
 
         for (let i = 0; i<slideImgs.length; i++){
+            const sliderOffset = experienceSlideOffsetRef.current[i]
             const iOffset = i*700
             const trackerPercentage = ((window.scrollY-(sliderOffset+iOffset))/700)*100
             const trackerPercentage2 = trackerPercentage>=0 ? 100-trackerPercentage : 100;
             const scalePercentageInitial = ((window.scrollY-(sliderOffset+iOffset))/700)
             const scalePercentage = 1-(scalePercentageInitial*0.1)
+            console.log(i, window.scrollY)
 
             slideImgs[i].style.clipPath = window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset+700 ?
                 'inset(0 0 0 0)': 'inset(100% 0 0 0)';
@@ -216,26 +221,31 @@ function Experience() {
             window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset + 700 ?
                 letterSlideUpAnimation(i) : letterSlideDownAnimation(i);
 
+            window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset + 700 ?
+                console.log('running') : console.log('failed');
+
             if(window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset+700){
                 slideImgs[i].style.scale = `${scalePercentage}`
             }
         }
     }
     useEffect(()=>{
+        function getSlideOffset (){
+            const slider = experienceSlideRef.current
+            const sliderWrapper = experienceWrapper.current
+            const offset = sliderWrapper.offsetTop
+            slider.forEach((slide, index)=>{
+                const rect = slide.getBoundingClientRect()
+                experienceSlideOffsetRef.current[index] = offset
+            })
+        }
+        getSlideOffset()
         const handleScroll = ()=>{
             experienceSlideAnimation()
         }
 
         window.addEventListener('scroll', handleScroll)
-
-        function getSlideOffset (){
-            const slider = experienceSlideRef.current
-            slider.forEach((slide, index)=>{
-                const rect = slide.getBoundingClientRect()
-                experienceSlideOffsetRef.current[index] = rect.top
-            })
-        }
-        getSlideOffset()
+        experienceSlideAnimation()
     }, [])
 
     const scrollTrackerRef = useRef([])
@@ -260,6 +270,25 @@ function Experience() {
         )
     }
 
+    useEffect(() => {
+        function handleResize() {
+            setViewportWidth(window.innerWidth);
+            setViewportHeight(window.innerHeight);
+            getSlideOffset();
+        }
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+
+
+
+
+
+
+    
     return (
         <section className="experience-section" ref={setExperienceWrapper}>
             <div className="experience-slider-wrapper">

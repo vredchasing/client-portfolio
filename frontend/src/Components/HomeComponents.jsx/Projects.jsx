@@ -1,18 +1,18 @@
-import { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useCallback, forwardRef, useImperativeHandle } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Projects() {
+const Projects = forwardRef((props, ref) => {
     const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
     const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
     const [centerIndexState, setCenterIndexState] = useState(0);
 
     const projects = [
-        { name: 'PROJECT 1', img: 'technology.webp' },
-        { name: 'PROJECT 2', img: 'future.webp' },
-        { name: 'PROJECT 3', img: 'technology.webp' },
-        { name: 'PROJECT 4', img: 'technology.webp' }
+        { name: 'PROJECT 1', img: 'technology.webp', description: '1234', src: 'project1' },
+        { name: 'PROJECT 2', img: 'future.webp', description: '1234', src: 'project2'  },
+        { name: 'PROJECT 3', img: 'technology.webp', description: '1234', src: 'project3'  },
+        { name: 'PROJECT 4', img: 'technology.webp', description: '1234', src: 'project4'  }
     ];
 
-    // Refs
     const projectsWrapperRef = useRef(null);
     const projectSlider1Ref = useRef(null);
     const projectsSlidesRef = useRef([]);
@@ -20,6 +20,13 @@ function Projects() {
     const rightButtonRef = useRef(null);
     const currentTranslate = useRef(0);
     const centerIndex = useRef(0);
+    const viewMoreButtonRef = useRef(null);
+
+    const navigate = useNavigate()
+
+    useImperativeHandle(ref, () => ({
+        viewMoreButtonRef: viewMoreButtonRef.current
+    }));
 
     const calculateWrapperWidth = () => projectsWrapperRef.current?.offsetWidth || 0;
     const calculateProjectsWidth = () => projectsSlidesRef.current[0]?.offsetWidth || 0;
@@ -60,7 +67,7 @@ function Projects() {
     
     const sliderClickAnimation = (e) => {
         const buttonType = e.currentTarget.dataset.buttonType;
-        const slideWidth = calculateProjectsWidth();
+        const slideWidth = isMobile ? viewportWidth*0.8 : calculateProjectsWidth();
         let translation;
 
         if (buttonType === 'left') {
@@ -79,6 +86,8 @@ function Projects() {
         updateButtonVisibility();
     };
 
+    const [isMobile, setIsMobile] = useState(window.innerWidth<=960)
+
     useEffect(() => {
         dynamicSlideSizing();
         centerSlides();
@@ -86,13 +95,16 @@ function Projects() {
         const handleResize = () => {
             setViewportWidth(window.innerWidth);
             setViewportHeight(window.innerHeight);
+            dynamicSlideSizing();
+            centerSlides();
+            setIsMobile(window.innerWidth<=960)
         };
 
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [viewportHeight, viewportWidth]);
+    }, []);
 
     useEffect(() => {
         const handleClick = (e) => sliderClickAnimation(e);
@@ -108,39 +120,41 @@ function Projects() {
         };
     }, [sliderClickAnimation]);
 
-    const slideTrackerSpanRef = useRef([])
-    function CreateSlideTracker({index}) {
-        return (
-            <span className='slide-tracker-span' ref={setSlideTrackerSpanRef(index)} ></span>
-        );
-    }
-
-    const setSlideTrackerSpanRef = (index)=>(el)=>{
-        if(el){
-            slideTrackerSpanRef.current[index] = el
+    const slideTrackerSpanRef = useRef([]);
+    const setSlideTrackerSpanRef = (index) => (el) => {
+        if (el) {
+            slideTrackerSpanRef.current[index] = el;
         }
-    }
+    };
 
-    function slideTrackerAnimation (){
-        const span = slideTrackerSpanRef.current
-        const slides = projectsSlidesRef.current
-        span[centerIndexState].style.backgroundColor = 'gray'
+    function slideTrackerAnimation() {
+        const span = slideTrackerSpanRef.current;
+        span.forEach(s => s.style.backgroundColor = ''); // Reset previous colors
+        span[centerIndexState].style.backgroundColor = 'gray';
     }
+    function scaleUpCenterIndex (index){
+        
+    }
+    useEffect(() => {
+        slideTrackerAnimation();
+        scaleUpCenterIndex(centerIndexState)
+    }, [centerIndexState]);
 
-    useEffect(()=>{
-        slideTrackerAnimation()
-    }, [centerIndexState])
-    
+
+
+    function projectOnClick (src){
+        navigate(`/projects/${src}`)
+    }
 
     return (
         <div className="projects-wrapper" ref={projectsWrapperRef}>
             <div className="slider-tracker-wrapper">
                 {projects.map((_, index) => (
-                    <CreateSlideTracker key={index} index={index}/>
+                    <span key={index} className='slide-tracker-span' ref={setSlideTrackerSpanRef(index)}></span>
                 ))}
             </div>
             <div className="view-more-button-container">
-                <button className="view-more-button">VIEW ALL PROJECTS</button>
+                <button className="view-more-button" ref={viewMoreButtonRef}>VIEW ALL PROJECTS</button>
             </div>
             <div className="left-arrow-container" ref={leftButtonRef} data-button-type="left">
                 <img className="left-arrow-img" src="left-arrow.svg" alt="Left Arrow" />
@@ -148,11 +162,11 @@ function Projects() {
             <div className="projects-slider-wrapper">
                 <div className="projects-slider1" ref={projectSlider1Ref}>
                     {projects.map((project, index) => (
-                        <div className="project-container-main">
-                            <div key={index} className="project-container" ref={(el) => projectsSlidesRef.current[index] = el}>
+                        <div key={index} className="project-container-main">
+                            <div className="project-container" ref={(el) => projectsSlidesRef.current[index] = el}>
                                 <div className="project">
-                                    <img className="project-image" src={project.img} alt={project.name} />
-                                    <div className="project-name-container">
+                                    <img className="project-image" src={project.img} alt={project.name} onClick={() => projectOnClick(project.src)}/>
+                                    <div className="project-name-container" onClick={() => projectOnClick(project.src)}>
                                         <h1 className="project-name">{project.name}</h1>
                                     </div>
                                 </div>
@@ -166,6 +180,6 @@ function Projects() {
             </div>
         </div>
     );
-}
+});
 
 export default Projects;
