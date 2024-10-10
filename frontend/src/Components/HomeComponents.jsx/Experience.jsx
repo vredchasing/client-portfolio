@@ -98,11 +98,13 @@ function Experience() {
 
     const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
     const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 960)
 
     useEffect(() => {
         const handleResize = () => {
             setViewportWidth(window.innerWidth);
             setViewportHeight(window.innerHeight);
+            setIsMobile(window.innerWidth<=960)
         };
         window.addEventListener('resize', handleResize);
         return () => {
@@ -202,7 +204,6 @@ function Experience() {
             const trackerPercentage2 = trackerPercentage>=0 ? 100-trackerPercentage : 100;
             const scalePercentageInitial = ((window.scrollY-(sliderOffset+iOffset))/700)
             const scalePercentage = 1-(scalePercentageInitial*0.1)
-            console.log(i, window.scrollY)
 
             slideImgs[i].style.clipPath = window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset+700 ?
                 'inset(0 0 0 0)': 'inset(100% 0 0 0)';
@@ -213,16 +214,13 @@ function Experience() {
             slideTrackerWrapper[i].style.opacity = window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset+700 ?
                 '1' : '0';
 
-            slideTracker[i].style.transform = `translateY(-${trackerPercentage2}%)`
+            slideTracker[i].style.transform = isMobile ? `translateX(-${trackerPercentage2}%)` : `translateY(-${trackerPercentage2}%)`;
 
             slideTime[i].style.opacity = window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset+700 ?
                 '1' : '0';
 
             window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset + 700 ?
                 letterSlideUpAnimation(i) : letterSlideDownAnimation(i);
-
-            window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset + 700 ?
-                console.log('running') : console.log('failed');
 
             if(window.scrollY >= sliderOffset + iOffset && window.scrollY <= sliderOffset + iOffset+700){
                 slideImgs[i].style.scale = `${scalePercentage}`
@@ -264,12 +262,15 @@ function Experience() {
 
     function ExperienceScrollTracker ({index}){
         return (
-            <div className="experience-scroll-tracker-wrapper" ref={setScrollTrackerWrapper(index)}>
-                <span className="experience-scroll-tracker" ref={setScrollTracker(index)}></span>
+            <div className="experience-scroll-tracker-wrapper" style={isMobile ? {height: '3.325px', width: '150px'} : {height: '150px', width: '3.325px'}} ref={setScrollTrackerWrapper(index)}>
+                <span className="experience-scroll-tracker" style={isMobile ? {height: '3.325px', width: '150px'} : {height: '150px', width: '3.325px'}} ref={setScrollTracker(index)}></span>
             </div>
         )
     }
 
+    useEffect(()=>{
+        console.log(isMobile)
+    }, [isMobile])
     useEffect(() => {
         function handleResize() {
             setViewportWidth(window.innerWidth);

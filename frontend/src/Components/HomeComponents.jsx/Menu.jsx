@@ -99,7 +99,7 @@ const Menu = forwardRef((props, ref) => {
         <section className="menu-section" ref={setMenuSectionRef}>
             <div className="close-menu-container" ref={setCloseMenuRef}>
                 <div className="close-menu-img-container" ref={setCloseMenuImgRef}>
-                    <img className="close-menu-img" src="close-menu.svg" alt="Close Menu" />
+                    <img className="close-menu-img" src="/public/close-menu.svg" alt="Close Menu" />
                 </div>
                 <h1 className="close-menu-text">CLOSE MENU</h1>
             </div>

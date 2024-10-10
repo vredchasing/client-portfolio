@@ -4,10 +4,10 @@ function Navbar (){
         <section className="navbar-wrapper">
             <nav className="navbar">
                 <ul className="navbar-links">
-                    <li>HOME</li>
-                    <li>ABOUT</li>
-                    <li>PROJECTS</li>
-                    <li>CONTACT</li>
+                    <li className="navbar-link">HOME</li>
+                    <li className="navbar-link">ABOUT</li>
+                    <li className="navbar-link">PROJECTS</li>
+                    <li className="navbar-link">CONTACT</li>
                 </ul>
             </nav>
         </section>

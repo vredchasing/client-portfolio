@@ -314,8 +314,10 @@ function Home (){
 
         aboutName.style.opacity = window.scrollY>=offset && window.scrollY<offset+transitionPoint ?
             '1' : '0.1';
-        window.scrollY>=offset && window.scrollY<offset+transitionPoint ?
-            aboutSliderAnimation(): aboutSliderCloseAnimation()
+        window.scrollY >= offset && window.scrollY < offset + transitionPoint 
+        ? (() => { aboutSliderAnimation(); signatureAnimationOpen() })()
+        : (() => { aboutSliderCloseAnimation(); signatureAnimationClose() })();
+          
         aboutParagraph.style.opacity = window.scrollY>=offset+transitionPoint ? 
             '1' : '0.1';
     }
@@ -388,6 +390,22 @@ function Home (){
         landingPageSlider.style.transform = 'translateY(0vh)'
     }, [])
 
+    const signatureWrapperRef = useRef()
+    const setSignatureWrapperRef = (el) => {
+        if(el){
+            signatureWrapperRef.current = el
+        }
+    }
+
+    function signatureAnimationOpen (){
+        const signature = signatureWrapperRef.current;
+        signature.style.scale = '2'
+    }
+    function signatureAnimationClose(){
+        const signature = signatureWrapperRef.current;
+        signature.style.scale = '1'
+    }
+    
     return(
         <section className='home-wrapper'>
             <div className="home-landing-page-wrapper" ref={setFixedContentRef}>
@@ -476,7 +494,7 @@ function Home (){
 
                     <div className="about-slider-main-wrapper">
                         <div className="signature-wrapper">
-                            <img className="signature" src="signature.png"></img>
+                            <img className="signature" src="signature.png" ref={setSignatureWrapperRef}></img>
                         </div>
                         <AboutSlider ref={aboutSliderForwardedRefs}></AboutSlider>
                     </div>
