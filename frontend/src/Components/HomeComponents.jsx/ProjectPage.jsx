@@ -2,17 +2,16 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 
 const projects = [
-    { name: 'PROJECT 1', img: '/public/technology.webp', imgSlides:['/public/filler1.jfif','/public/future.webp','/public/filler1.jfif'], description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Ligula cubilia pharetra tincidunt dui non ad vulputate. Facilisi fames auctor et litora cubilia. Semper elementum vitae litora, rhoncus condimentum dictumst fusce egestas.', src: 'project1' },
-    { name: 'PROJECT 2', img: '/public/future.webp', imgSlides:['/public/technology.webp','/public/technology.webp','/public/technology.webp'], description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Ligula cubilia pharetra tincidunt dui non ad vulputate. Facilisi fames auctor et litora cubilia. Semper elementum vitae litora, rhoncus condimentum dictumst fusce egestas.', src: 'project2'  },
-    { name: 'PROJECT 3', img: '/public/technology.webp', imgSlides:['/public/technology.webp','/public/technology.webp','/public/technology.webp'], description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Ligula cubilia pharetra tincidunt dui non ad vulputate. Facilisi fames auctor et litora cubilia. Semper elementum vitae litora, rhoncus condimentum dictumst fusce egestas.', src: 'project3'  },
-    { name: 'PROJECT 4', img: '/public/technology.webp', imgSlides:['/public/technology.webp','/public/technology.webp','/public/technology.webp'], description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Ligula cubilia pharetra tincidunt dui non ad vulputate. Facilisi fames auctor et litora cubilia. Semper elementum vitae litora, rhoncus condimentum dictumst fusce egestas.', src: 'project4'  }
+    { name: 'PROJECT 1', date: '11/2022', imgSlides:[{type:'video', src : '/public/projectvideo.mp4'}, {type:'video', src : '/public/projectvideo.mp4'},{type:'video', src : '/public/projectvideo.mp4'}], description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Ligula cubilia pharetra tincidunt dui non ad vulputate. Facilisi fames auctor et litora cubilia. Semper elementum vitae litora, rhoncus condimentum dictumst fusce egestas.', finder: 'project1' },
+    { name: 'PROJECT 2', imgSlides:['/public/technology.webp','/public/technology.webp','/public/technology.webp'], description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Ligula cubilia pharetra tincidunt dui non ad vulputate. Facilisi fames auctor et litora cubilia. Semper elementum vitae litora, rhoncus condimentum dictumst fusce egestas.', finder: 'project2'  },
+    { name: 'PROJECT 3', imgSlides:['/public/technology.webp','/public/technology.webp','/public/technology.webp'], description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Ligula cubilia pharetra tincidunt dui non ad vulputate. Facilisi fames auctor et litora cubilia. Semper elementum vitae litora, rhoncus condimentum dictumst fusce egestas.', finder: 'project3'  },
+    { name: 'PROJECT 4', imgSlides:['/public/technology.webp','/public/technology.webp','/public/technology.webp'], description: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Ligula cubilia pharetra tincidunt dui non ad vulputate. Facilisi fames auctor et litora cubilia. Semper elementum vitae litora, rhoncus condimentum dictumst fusce egestas.', finder: 'project4'  }
 ];
 
 function ProjectPage(){
     const {projectId} = useParams();
-    const project = projects.find(p=>p.src === projectId)
+    const project = projects.find(p=>p.finder === projectId)
     const projectSlides = project.imgSlides
-    console.log('slides',projectSlides)
     
     useEffect(()=>{
         scrollTo(0,0)
@@ -25,16 +24,18 @@ function ProjectPage(){
 
     function CreateProjectPageSlides ({img, index}){
         return(
-            <div className="project-page-slide-image-container">
-                <img className="project-page-slide-image" src={img} onClick={updateMainImage}></img>
+            <div className="project-page-slide-image-container" onClick={() => updateMainImage(img)}>
+                {img.type === 'video' ?
+                    <video className="project-page-slide-video" src={img.src}></video>     
+                :   <img className="project-page-slide-image" src={img.src}></img> }
             </div>
         )
     }
 
-    const [mainImage, setMainImage] = useState(project.imgSlides[0])
+    const [mainImage, setMainImage] = useState({type:project.imgSlides[0].type, src:project.imgSlides[0].src})
 
-    const updateMainImage = (e)=>{
-        setMainImage(e.target.src)
+    const updateMainImage = (img)=>{
+        setMainImage({type:img.type, src:img.src})
     }
 
     useEffect(()=>{
@@ -42,14 +43,27 @@ function ProjectPage(){
     }, [mainImage])
     return (
         <section className="project-page-main-wrapper">
-
             <div className="project-page-hero-content-wrapper">
                 <div className="images-main-wrapper">
+
                     <div className="project-page-main-image-wrapper">
                         <div className="project-page-main-image-container">
-                            <img className="project-page-main-image" src={mainImage}></img>
+                            {mainImage.type === 'video' ?
+                                <video className="project-page-main-video" autoPlay loop muted src={mainImage.src}></video>
+                            :   <img className="project-page-main-image" src={mainImage.src}></img>}
                         </div>
                     </div>
+
+                    <div className="project-page-description-wrapper">
+                        <div className="project-page-title-container">
+                            <h1 className="project-page-title">{project.name}</h1>
+                            <p className="project-page-date">{project.date}</p>
+                        </div>
+                        <div className="project-page-description-container">
+                            <p className="project-page-description">{project.description}</p>
+                        </div>
+                    </div>
+
                     <div className="project-page-image-slides-wrapper">
                         <div className="project-page-image-slides">
                             {project.imgSlides.map((img, index)=>{
@@ -59,6 +73,7 @@ function ProjectPage(){
                             })}
                         </div>
                     </div>
+    
                 </div>
             </div>
         </section>
