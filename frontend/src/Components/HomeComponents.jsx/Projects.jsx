@@ -1,5 +1,6 @@
-import React, { useRef, useState, useEffect, useCallback, forwardRef, useImperativeHandle } from "react";
+import React, { useRef, useState, useEffect, useCallback, forwardRef, useImperativeHandle, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Context } from "../../App";
 
 const Projects = forwardRef((props, ref) => {
     const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
@@ -7,10 +8,10 @@ const Projects = forwardRef((props, ref) => {
     const [centerIndexState, setCenterIndexState] = useState(0);
 
     const projects = [
-        { name: 'PROJECT 1', img: 'technology.webp', description: '1234', src: 'project1' },
-        { name: 'PROJECT 2', img: 'future.webp', description: '1234', src: 'project2'  },
-        { name: 'PROJECT 3', img: 'technology.webp', description: '1234', src: 'project3'  },
-        { name: 'PROJECT 4', img: 'technology.webp', description: '1234', src: 'project4'  }
+        { name: 'PROJECT 1', date: '11/2022', type: 'video', img: '/public/projectvideo.mp4', description: '1234', src: 'project1' },
+        { name: 'PROJECT 2', date: '11/2022', type: 'video', img: '/public/projectvideo2.mp4', description: '1234', src: 'project2'  },
+        { name: 'PROJECT 3', date: '11/2022', type: 'video', img: '/public/projectvideo3.mp4', description: '1234', src: 'project3'  },
+        { name: 'PROJECT 4', date: '11/2022', type: 'video', img: '/public/projectvideo4.mp4', description: '1234', src: 'project4'  }
     ];
 
     const projectsWrapperRef = useRef(null);
@@ -23,6 +24,8 @@ const Projects = forwardRef((props, ref) => {
     const viewMoreButtonRef = useRef(null);
 
     const navigate = useNavigate()
+
+    const {isLoading, setIsLoading} = useContext(Context)
 
     useImperativeHandle(ref, () => ({
         viewMoreButtonRef: viewMoreButtonRef.current
@@ -143,7 +146,11 @@ const Projects = forwardRef((props, ref) => {
 
 
     function projectOnClick (src){
+        setIsLoading(true)
         navigate(`/projects/${src}`)
+        setTimeout(()=>{
+            setIsLoading(false)
+        }, 1000)
     }
 
     return (
@@ -164,10 +171,11 @@ const Projects = forwardRef((props, ref) => {
                     {projects.map((project, index) => (
                         <div key={index} className="project-container-main">
                             <div className="project-container" ref={(el) => projectsSlidesRef.current[index] = el}>
-                                <div className="project">
-                                    <img className="project-image" src={project.img} alt={project.name} onClick={() => projectOnClick(project.src)}/>
-                                    <div className="project-name-container" onClick={() => projectOnClick(project.src)}>
+                                <div className="project" onClick={() => projectOnClick(project.src)}>
+                                    {project.type === 'video' ? <video className="project-video" autoPlay loop muted src={project.img}></video> : <img className="project-image" src={project.img} alt={project.name} onClick={() => projectOnClick(project.src)}/>}
+                                    <div className="project-name-container">
                                         <h1 className="project-name">{project.name}</h1>
+                                        <h1 className="project-date">{project.date}</h1>
                                     </div>
                                 </div>
                             </div>

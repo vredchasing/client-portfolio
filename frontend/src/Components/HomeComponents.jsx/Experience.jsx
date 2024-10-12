@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 function Experience() {
     const projectSlides = [
         {
-            img: 'future.webp',
+            type: 'video', 
+            img: '/public/cybersecurity-vid.mp4',
             projectName: [['C', 'Y', 'B', 'E', 'R', 'S', 'E', 'C', 'U', 'R', 'I', 'T', 'Y']],
             time : '1 YEAR',
             index: '1',
@@ -12,7 +13,8 @@ function Experience() {
             animateSpeed: 0.3
         },
         {
-            img: 'cybersecurity.jpg',
+            type: 'video', 
+            img: '/public/networkdesign-vid.mp4',
             projectName: [['N', 'E', 'T', 'W', 'O', 'R', 'K'], ['D', 'E', 'S', 'I', 'G', 'N']],
             time : '2 YEARS',
             index: '2',
@@ -21,7 +23,8 @@ function Experience() {
             animateSpeed: 0.4
         },
         {
-            img: 'workers.gif',
+            type: 'video', 
+            img: '/public/informationtechnology-vid.mp4',
             projectName: [['I', 'N', 'F', 'O', 'R', 'M', 'A', 'T', 'I', 'O', 'N'], ['T', 'E', 'C', 'H', 'N', 'O', 'L', 'O', 'G', 'Y']],
             time : '1 YEAR',
             index: '3',
@@ -30,7 +33,8 @@ function Experience() {
             animateSpeed: 0.6
         },
         {
-            img: 'city.gif',
+            type: 'video', 
+            img: '/public/virtualization-vid.mp4',
             projectName: [['V', 'I', 'R', 'T', 'U', 'A', 'L', 'I', 'Z', 'A', 'T', 'I', 'O', 'N']],
             time : '1 YEAR',
             index: '4',
@@ -85,7 +89,7 @@ function Experience() {
                 </div>
                 <div className="experience-slide-image-wrapper">
                     <div className="experience-slide-image-container" ref={setExperienceSlideImgRef(index)}>
-                        <img className="experience-slide-image" src={slide.img} alt={slide.projectName.flat().join(' ')} />
+                        {slide.type === 'video' ?  <video className="experience-slide-video" autoPlay loop muted src={slide.img}></video> :<img className="experience-slide-image" src={slide.img} alt={slide.projectName.flat().join(' ')} />}
                     </div>
                 </div>
                 <div className="time-wrapper">
